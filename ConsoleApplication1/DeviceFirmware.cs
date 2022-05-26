@@ -11,12 +11,12 @@ namespace ConsoleApplication1
 {
     class DeviceFirmware
     {
-
+        private FileBat fileBat = new FileBat();
         public void Firmware(csvParcer _csvParcer,string _pathForCopy,string _pathForDelete, string _login, string _password)
         {
             ConsoleKeyInfo clickExit = new ConsoleKeyInfo();
             PingOptions options = new PingOptions();
-            FileBat fileBat = new FileBat();
+           
             Ping pingSender = new Ping();
             Task task2;
 
@@ -36,18 +36,26 @@ namespace ConsoleApplication1
                     }
 
                     options.DontFragment = true;
-                    int timeout = 120;
+                      int timeout = 120;
                     PingReply reply = pingSender.Send(_csvParcer.ReturnIP(i), timeout);
                     Console.WriteLine(_csvParcer.ReturnIP(i));
                     if (reply.Status == IPStatus.Success)
                     {
                         Console.WriteLine("Прошивка устройства IP - " + _csvParcer.ReturnIP(i));
+
                         task2 = new Task(WaitingEndFirmware);
                         //программа
                         task2.Start();
                         task2.Wait();
-                        fileBat.BatFile(_csvParcer.ReturnIP(i), _pathForCopy, _pathForDelete, _login , _password);
-                        _csvParcer.DeleteElement(_csvParcer.ReturnIP(i));
+                        fileBat.BatFile(_csvParcer.ReturnIP(i), _pathForCopy, _pathForDelete, _login, _password);
+
+                        if (fileBat.ResultFirmware())
+                        {
+                            Thread.Sleep(2000);
+                            Console.WriteLine("Устройство {0} - успешно прошито ", _csvParcer.ReturnIP(i));
+                            _csvParcer.DeleteElement(_csvParcer.ReturnIP(i));
+                        }
+                        else { Console.WriteLine("Устройство {0} - устройство не прошито ", _csvParcer.ReturnIP(i)); }
                     }
                 }
             }
@@ -68,33 +76,35 @@ namespace ConsoleApplication1
                 p = new ProcessStartInfo();
                 p.FileName = Environment.CurrentDirectory + "//TestFile.bat";
                 Process.Start(p);
-              
+
                 int count = 0;
                 //проверка кол-ва открытых консолей
                 foreach (Process process in Process.GetProcesses())
                 {
                     if (process.ProcessName == "cmd")
-                    {                   
+                    {
                         count++;
                     }
                 }
                 while (true)
                 {
                     //ожидание закрытия консоли
-                    int countCheck = 0;                   
+                    int countCheck = 0;
                     foreach (Process process in Process.GetProcesses())
                     {
                         if (process.ProcessName == "cmd")
                         {
                             countCheck++;
-                        }                 
+                        }
                     }
                     // Если файл консоль с прошивкой закрылась завершить прошивку
-                    if (count - 1 == countCheck) { break; }
+                    if (count - 1 == countCheck)
+                    {
 
+                        break;
+                    }
+                    Thread.Sleep(1000);
                 }
-                Console.WriteLine("Устройство прошито"); //Возможно
-                Thread.Sleep(1000);
             }
 
             catch (Exception ex) { Console.WriteLine(ex); }
