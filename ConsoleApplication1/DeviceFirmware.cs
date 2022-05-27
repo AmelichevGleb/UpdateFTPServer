@@ -12,6 +12,8 @@ namespace ConsoleApplication1
     class DeviceFirmware
     {
         private FileBat fileBat = new FileBat();
+        private Logs log = new Logs();
+
         public void Firmware(csvParcer _csvParcer,string _pathForCopy,string _pathForDelete, string _login, string _password)
         {
             ConsoleKeyInfo clickExit = new ConsoleKeyInfo();
@@ -51,11 +53,14 @@ namespace ConsoleApplication1
 
                         if (fileBat.ResultFirmware())
                         {
+                            log.TextFormatting(_csvParcer.ReturnIP(i));
                             Thread.Sleep(2000);
                             Console.WriteLine("Устройство {0} - успешно прошито ", _csvParcer.ReturnIP(i));
                             _csvParcer.DeleteElement(_csvParcer.ReturnIP(i));
                         }
-                        else { Console.WriteLine("Устройство {0} - устройство не прошито ", _csvParcer.ReturnIP(i)); }
+                        else { Console.WriteLine("Устройство {0} - устройство не прошито ", _csvParcer.ReturnIP(i));
+                            log.TextFormatting(_csvParcer.ReturnIP(i));
+                        }
                     }
                 }
             }

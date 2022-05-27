@@ -29,23 +29,6 @@ namespace ConsoleApplication1
         private const string OpenDataString_11 = "150 Opening data connections.";
         private const string CloseDataString_12 = "226 Closing data connection. Requested file action successful.";
 
-        /*
-  1      ftp> Связь с 192.168.166.40.
-  2      open 192.168.166.40
-  3      220 Welcome FTP server.
-  4      Пользователь (192.168.166.40:(none)): 
-  5      331 Need password.
-  6
-  7      230 User logged in, proceed. Logged out if appropriate.
-  8      ftp> del \test.txt
-  9      250 command successful.
-   10     ftp> put C:\Users\Kniitmy\Desktop\FTP_Server\ConsoleApplication1\bin\Debug\test.txt
-     11   200 Command ok.
-      12  150 Opening data connections.
-      13  226 Closing data connection. Requested file action successful.
-      14  ftp> ftp> literal reset 
-       15 quit 
-        */
 
 
         //   private const string fileInServer = "\\test.txt";

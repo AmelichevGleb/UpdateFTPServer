@@ -46,6 +46,7 @@
     <Compile Include="DeviceFirmware.cs" />
     <Compile Include="FileBat.cs" />
     <Compile Include="csvParcer.cs" />
+    <Compile Include="Logs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

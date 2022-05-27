@@ -65,7 +65,7 @@ namespace ConsoleApplication1
                         //программа
                     }
                     break;
-            
+               
             }
         }
 
